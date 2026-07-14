@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
@@ -32,21 +32,49 @@ const App = () => {
 	const scene = useRef<HTMLDivElement>(null)
 	const ring = useRef<HTMLDivElement>(null)
 
+	useEffect(() => {
+		document.body.style.overflow = 'hidden'
+	}, [])
+
 	useGSAP(() => {
 			gsap.set(ring.current, { rotationY: 0, rotationX: RESTING_TILT })
 
 			gsap.to(ring.current, {
-				rotationY: 360,
+				rotationY: 720,
 				ease: 'none',
 				scrollTrigger: {
 					trigger: scene.current,
 					start: 'top top',
-					end: '+=4000',
+					end: '+=8000',
 					pin: true,
 					scrub: 0.5,
 				},
 			})
-		}, { scope: scene })
+
+			const mm = gsap.matchMedia()
+
+			mm.add('(prefers-reduced-motion: no-preference)', () => {
+				const intro = gsap.timeline({ defaults: { ease: 'power3.out' } })
+				intro.from('.card', {
+					opacity: 0,
+					scale: 0.6,
+					duration: 1,
+					stagger: { each: 0.06, from: 'center' },
+				}).fromTo(
+					ring.current,
+					{ rotationX: 0  },
+					{ rotationX: -15, duration: 0.9, ease: 'power2.out' },
+					0,
+				).to(ring.current, { 
+					rotationX: RESTING_TILT, 
+					duration: 0.7, 
+					ease: 'power2.inOut',
+					onComplete: () => {
+						document.body.style.overflow = ''
+					}
+				})
+			})
+		},{ scope: scene })
 
 	return (
 		<div
@@ -66,7 +94,7 @@ const App = () => {
 				{images.map((src, i) => (
 					<div
 						key={src + i}
-						className="absolute inset-0 rounded-2xl border border-white/50 shadow-2xl shadow-black/50"
+						className="card absolute inset-0 rounded-xl border border-white/50 "
 						style={{
 							transform: `rotateY(${i * angleStep}deg) translateZ(${radius}px)`,
 							transformStyle: 'preserve-3d',
@@ -75,11 +103,11 @@ const App = () => {
 						<img
 							src={src}
 							draggable={false}
-							className="absolute inset-0 h-full w-full rounded-2xl bg-neutral-800 object-cover"
+							className="absolute inset-0 h-full w-full rounded-xl object-cover"
 							style={{ backfaceVisibility: 'hidden' }}
 						/>
 						<div
-							className="absolute inset-0 flex animate-pulse flex-col items-center justify-center gap-3 rounded-2xl bg-neutral-800/70 p-6"
+							className="absolute inset-0 flex animate-pulse flex-col items-center justify-center bg-white/10 gap-3 rounded-xl p-6"
 							style={{ transform: 'rotateY(180deg)', backfaceVisibility: 'hidden' }}
 						>
 							<svg
