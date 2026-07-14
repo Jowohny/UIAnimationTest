@@ -7,4 +7,11 @@ html {
   color: #ffffff;
   margin: 0;
   padding: 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
