@@ -1,122 +1,106 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useGSAP } from '@gsap/react'
 
-function App() {
-  const [count, setCount] = useState(0)
+gsap.registerPlugin(ScrollTrigger, useGSAP)
 
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1 className=''>Get started</h1>
-          <p>
-            Edit <code className='text-4xl italic font-bold tracking-[2rem]'>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+const images = [
+	'/carousel/01.png',
+	'/carousel/02.png',
+	'/carousel/03.png',
+	'/carousel/04.png',
+	'/carousel/05.png',
+	'/carousel/06.png',
+	'/carousel/01.png',
+	'/carousel/02.png',
+	'/carousel/03.png',
+	'/carousel/04.png',
+	'/carousel/05.png',
+	'/carousel/06.png'
+]
 
-      <div className="ticks"></div>
+const CARD_WIDTH = 340
+const CARD_HEIGHT = 200
+const GAP = 20
+const RESTING_TILT = -5
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+const angleStep = 360 / images.length
+const radius = Math.round((CARD_WIDTH + GAP) / 2 / Math.tan(Math.PI / images.length))
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+const App = () => {
+	const scene = useRef<HTMLDivElement>(null)
+	const ring = useRef<HTMLDivElement>(null)
+
+	useGSAP(() => {
+			gsap.set(ring.current, { rotationY: 0, rotationX: RESTING_TILT })
+
+			gsap.to(ring.current, {
+				rotationY: 360,
+				ease: 'none',
+				scrollTrigger: {
+					trigger: scene.current,
+					start: 'top top',
+					end: '+=4000',
+					pin: true,
+					scrub: 0.5,
+				},
+			})
+		}, { scope: scene })
+
+	return (
+		<div
+			ref={scene}
+			className="flex h-screen w-full items-center bg-black justify-center overflow-hidden"
+			style={{ perspective: 1400 }}
+		>
+			<div
+				ref={ring}
+				className="relative"
+				style={{
+					width: CARD_WIDTH,
+					height: CARD_HEIGHT,
+					transformStyle: 'preserve-3d',
+				}}
+			>
+				{images.map((src, i) => (
+					<div
+						key={src + i}
+						className="absolute inset-0 rounded-2xl border border-white/50 shadow-2xl shadow-black/50"
+						style={{
+							transform: `rotateY(${i * angleStep}deg) translateZ(${radius}px)`,
+							transformStyle: 'preserve-3d',
+						}}
+					>
+						<img
+							src={src}
+							draggable={false}
+							className="absolute inset-0 h-full w-full rounded-2xl bg-neutral-800 object-cover"
+							style={{ backfaceVisibility: 'hidden' }}
+						/>
+						<div
+							className="absolute inset-0 flex animate-pulse flex-col items-center justify-center gap-3 rounded-2xl bg-neutral-800/70 p-6"
+							style={{ transform: 'rotateY(180deg)', backfaceVisibility: 'hidden' }}
+						>
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								strokeWidth={1.5}
+								className="h-10 w-10 text-white/20"
+							>
+								<rect x="3" y="3" width="18" height="18" rx="2" />
+								<circle cx="8.5" cy="8.5" r="1.5" />
+								<path d="M21 15l-5-5L5 21" />
+							</svg>
+							<div className="h-2 w-2/3 rounded-full bg-white/10" />
+							<div className="h-2 w-1/2 rounded-full bg-white/10" />
+						</div>
+					</div>
+				))}
+			</div>
+		</div>
+	)
 }
 
 export default App
