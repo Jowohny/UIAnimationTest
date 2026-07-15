@@ -9,5 +9,10 @@ export const demos: Demo[] = [
 		title: 'Horozontal 3D Carousel',
 		desc: 'A scroll-driven ring of images orbiting an invisible vertical axis.',
 		path: '/hcarousel',
+	},
+	{
+		title: 'Vertical 3D Carousel',
+		desc: 'A scroll-driven ring of images orbiting an invisible vertical axis.',
+		path: '/vcarousel',
 	}
 ]

@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
-import { HCI } from '../data/CImages'
+import { VCI } from '../data/CImages'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
@@ -11,10 +11,10 @@ const CARD_HEIGHT = 200
 const GAP = 20
 const RESTING_TILT = -5
 
-const angleStep = 360 / HCI.length
-const radius = Math.round((CARD_WIDTH + GAP) / 2 / Math.tan(Math.PI / HCI.length))
+const angleStep = 360 / VCI.length
+const radius = Math.round((CARD_HEIGHT + GAP) / 2 / Math.tan(Math.PI / VCI.length))
 
-const HCarousel = () => {
+const VCarousel = () => {
 	const scene = useRef<HTMLDivElement>(null)
 	const ring = useRef<HTMLDivElement>(null)
 
@@ -26,10 +26,10 @@ const HCarousel = () => {
 	}, [])
 
 	useGSAP(() => {
-			gsap.set(ring.current, { rotationY: 0, rotationX: RESTING_TILT })
+			gsap.set(ring.current, { rotationX: 0, rotationY: RESTING_TILT })
 
 			gsap.to(ring.current, {
-				rotationY: 720,
+				rotationX: 720,
 				ease: 'none',
 				scrollTrigger: {
 					trigger: scene.current,
@@ -51,11 +51,11 @@ const HCarousel = () => {
 					stagger: { each: 0.06, from: 'center' },
 				}).fromTo(
 					ring.current,
-					{ rotationX: 0  },
-					{ rotationX: -15, duration: 0.9, ease: 'power2.out' },
+					{ rotationY: 0 },
+					{ rotationY: -15, duration: 0.9, ease: 'power2.out' },
 					0,
 				).to(ring.current, {
-					rotationX: RESTING_TILT,
+					rotationY: RESTING_TILT,
 					duration: 0.7,
 					ease: 'power2.inOut',
 					onComplete: () => {
@@ -80,12 +80,12 @@ const HCarousel = () => {
 					transformStyle: 'preserve-3d',
 				}}
 			>
-				{HCI.map((src, i) => (
+				{VCI.map((src, i) => (
 					<div
 						key={src + i}
 						className="card absolute inset-0 rounded-xl border border-white/50 "
 						style={{
-							transform: `rotateY(${i * angleStep}deg) translateZ(${radius}px)`,
+							transform: `rotateX(${i * angleStep}deg) translateZ(${radius}px)`,
 							transformStyle: 'preserve-3d',
 						}}
 					>
@@ -120,4 +120,4 @@ const HCarousel = () => {
 	)
 }
 
-export default HCarousel
+export default VCarousel
