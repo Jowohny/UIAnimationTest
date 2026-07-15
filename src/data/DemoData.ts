@@ -6,7 +6,7 @@ export type Demo = {
 
 export const demos: Demo[] = [
 	{
-		title: '3D Carousel',
+		title: 'Horozontal 3D Carousel',
 		desc: 'A scroll-driven ring of images orbiting an invisible vertical axis.',
 		path: '/hcarousel',
 	}
