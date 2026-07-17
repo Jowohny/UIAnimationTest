@@ -33,7 +33,7 @@ export const CoinCountSwitch = ({ currentCount, onTypeChange }: CoinCountSwitchP
 				duration: 1,
 				ease: 'sine.out',
 				y: -30,
-				delay: 0.5
+				delay: 0.375
 			}).fromTo('.options', 
 				{ scale: 0 },
 				{ scale: 1, duration: 0.7, opacity: 1, stagger: 0.1, ease: 'none' },
@@ -49,7 +49,7 @@ export const CoinCountSwitch = ({ currentCount, onTypeChange }: CoinCountSwitchP
 					key={type.name} 
 					onClick={() => onTypeChange(type)}
 					className={`options opacity-0 rounded-full font-black tracking-wide text-center px-3 py-2 uppercase duration-300 transition-all 
-						${ currentCount === type ? 'bg-white text-blue-800' : ''}`}
+						${ JSON.stringify(currentCount) == JSON.stringify(type) ? 'bg-white text-blue-800' : ''}`}
 				>
 					{type.name}
 				</div>
