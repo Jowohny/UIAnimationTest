@@ -48,8 +48,8 @@ export const CoinCountSwitch = ({ currentCount, onTypeChange }: CoinCountSwitchP
 				<div 
 					key={type.name} 
 					onClick={() => onTypeChange(type)}
-					className={`options opacity-0 text-white rounded-full font-black tracking-wide text-center px-3 py-2 uppercase duration-300 transition-all 
-						${ currentCount === type ? 'bg-white text-blue-800 border border-black' : ''}`}
+					className={`options opacity-0 rounded-full font-black tracking-wide text-center px-3 py-2 uppercase duration-300 transition-all 
+						${ currentCount === type ? 'bg-white text-blue-800' : ''}`}
 				>
 					{type.name}
 				</div>
