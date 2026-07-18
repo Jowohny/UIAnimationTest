@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 import HCarousel from './pages/HCarousel'
 import VCarousel from './pages/VCarousel'
+import WFImages from './pages/WFImages'
 import Home from './pages/Home'
 
 const App = () => {
@@ -10,6 +11,7 @@ const App = () => {
 				<Route path='/' element={<Home/>} />
 				<Route path='/hcarousel' element={<HCarousel/>} />
 				<Route path='/vcarousel' element={<VCarousel/>} />
+				<Route path='/wfimages' element={<WFImages/>} />
 			</Routes>
 		</>
 	)
