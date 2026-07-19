@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom'
 import HCarousel from './pages/HCarousel'
 import VCarousel from './pages/VCarousel'
 import WFImages from './pages/WFImages'
+import PolaroidScatter from './pages/PolaroidScatter'
 import Home from './pages/Home'
 
 const App = () => {
@@ -12,6 +13,7 @@ const App = () => {
 				<Route path='/hcarousel' element={<HCarousel/>} />
 				<Route path='/vcarousel' element={<VCarousel/>} />
 				<Route path='/wfimages' element={<WFImages/>} />
+				<Route path='/scatter' element={<PolaroidScatter/>} />
 			</Routes>
 		</>
 	)
