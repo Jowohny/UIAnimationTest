@@ -3,6 +3,7 @@ import HCarousel from './pages/HCarousel'
 import VCarousel from './pages/VCarousel'
 import WFImages from './pages/WFImages'
 import PolaroidScatter from './pages/PolaroidScatter'
+import Hyperspace from './pages/Hyperspace'
 import Home from './pages/Home'
 
 const App = () => {
@@ -14,6 +15,7 @@ const App = () => {
 				<Route path='/vcarousel' element={<VCarousel/>} />
 				<Route path='/wfimages' element={<WFImages/>} />
 				<Route path='/scatter' element={<PolaroidScatter/>} />
+				<Route path='/hyperspace' element={<Hyperspace/>} />
 			</Routes>
 		</>
 	)

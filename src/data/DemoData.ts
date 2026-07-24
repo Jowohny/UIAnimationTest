@@ -24,5 +24,10 @@ export const demos: Demo[] = [
 		title: 'Polaroid Scatter',
 		desc: 'Photos tossed on a desk — drag and flick them around with real momentum, click to inspect.',
 		path: '/scatter',
+	},
+	{
+		title: 'Hyperspace',
+		desc: 'A Star Wars-style stream of images receding from the edges into a central vanishing point.',
+		path: '/hyperspace',
 	}
 ]
